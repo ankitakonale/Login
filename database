@@ -1,0 +1,22 @@
+create database bankData;
+use bankData;
+create table bank(cust_name varchar(100) not null,cust_surname varchar(100) ,
+email_ID varchar(100) not null,card_no int primary key not null,password int ,finger_print int not null);
+insert into bank(cust_name,cust_surname,
+email_ID, card_no,password,finger_print)values('Rutuja','Vetal','rutujavetal@gmail.com','77107890','5888','1001010');
+insert into bank(cust_name,cust_surname,
+email_ID, card_no,password,finger_print)values('Ankita','Konale','konaleankita@gmail.com','77107892','2225','1001100');
+insert into bank(cust_name,cust_surname,
+email_ID, card_no,password,finger_print)values('Shreya','Paramane','shreyaparamne@gmail.com','77107894','1243','1001011');
+insert into bank(cust_name,cust_surname,
+email_ID, card_no,password,finger_print)values('Akshata','Jadhav','akshata27jadhav@gmail.com','77107896','2244','1001101');
+insert into bank(cust_name,cust_surname,
+email_ID, card_no,password,finger_print)values('Sham','Mane','SM@gmail.com','77107898','2245','1001110');
+insert into bank(cust_name,cust_surname,
+email_ID, card_no,password,finger_print)values('Ram','Kale','RM@gmail.com','77107880','2246','1001111');
+insert into bank(cust_name,cust_surname,
+email_ID, card_no,password,finger_print)values('Ravi','Savale','RS@gmail.com','77107882','2247','1001000');
+insert into bank(cust_name,cust_surname,
+email_ID, card_no,password,finger_print)values('Raj','Gore','RG@gmail.com','77107884','8248','1010001');
+select * from bank;
+
