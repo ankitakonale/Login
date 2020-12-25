@@ -8,23 +8,23 @@ def submitact():
     user = Username.get()
     passw = password.get()
     finge = fingerprint.get()
+    print(user + " " + passw + " " + finge)
 
     print("The name entered by you is {user}{passw}{finge}")
 
-    logintodb(user,passw,finge)
+    logintodb(user, passw, finge)
 
 
-def logintodb(user,passw,finge):
+def logintodb(user, passw, finge):
     # If paswword is enetered by the
     # user
     if passw:
         db = mysql.connector.connect(host="localhost",
                                      user=user,
                                      password=passw,
-                                     db = "bankData"
+                                     db="bankData"
                                      )
         cursor = db.cursor()
-
 
         # If no password is enetered by the
     # user
@@ -35,7 +35,7 @@ def logintodb(user,passw,finge):
         cursor = db.cursor()
 
         # A Table in the database
-    savequery = "select * from bankData"
+    savequery = "select * from bank"
 
     try:
         cursor.execute(savequery)
@@ -47,8 +47,9 @@ def logintodb(user,passw,finge):
             print(x)
         print("Query Excecuted successfully")
 
-    except:
+    except Exception as e:
         db.rollback()
+        print(e)
         print("Error occured")
 
 
@@ -72,10 +73,10 @@ password = tk.Entry(root, width=35)
 password.place(x=150, y=50, width=100)
 
 lblsecrow = tk.Label(root, text="Fingerprint-")
-lblsecrow.place(x=50, y=50)
+lblsecrow.place(x=50, y=80)
 
 fingerprint = tk.Entry(root, width=35)
-fingerprint.place(x=150, y=50, width=100)
+fingerprint.place(x=150, y=80, width=100)
 
 submitbtn = tk.Button(root, text="Login",
                       bg='blue', command=submitact)
