@@ -1,0 +1,76 @@
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+import mysql.connector
+import smtplib
+import time as t
+
+#import pandas as pd
+import xlrd
+
+
+#print(sheet.cell_value(0, 0))
+#print(sheet.row_values(1))
+#df = pd.read_excel
+card_no = input("Enter card number: ")
+password = int(input("Enter your password: "))
+
+
+mydb = mysql.connector.connect(host="localhost", user="root", password="123456", database="bankData")
+
+mycursor = mydb.cursor()
+
+mycursor.execute("select * from bank where card_no = "+card_no )
+
+for i in mycursor:
+    if i[4] == password:
+        finger_print = int(input("Enter fingerPrint: "))
+        if i[5] == finger_print:
+            amount = input("Enter amount :")
+            print("Transaction successful")
+        else:
+            sender_email = "transactionbank6@gmail.com"
+            rec_email = i[2]
+            password = "SAAR@1234"
+            message = MIMEMultipart('alternative')
+            html = """\
+            <html>
+                <head></head>
+                <body>
+                <p>
+                <p>Hi! This mail is to ensure if your card is in safe hands.</p>
+                <p>Please fill the form below</p>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLScEOVCClU_axF1vhy-U4w8zjvg1CViKYqzUT48tr0cYGOkGcg/viewform">
+                Click here</a>
+                
+                </p></body>
+            <html>
+            """
+            part2 = MIMEText(html, 'html')
+
+            message.attach(part2)
+
+            server = smtplib.SMTP('smtp.gmail.com', 587)
+            server.starttls()
+            server.login(sender_email, password)
+            #print("Login success")
+            server.sendmail(sender_email, rec_email, message.as_string())
+            print("Email has been sent to ",rec_email)
+
+            # t.sleep(240)
+            t.sleep(180)
+            loc = ("D:transactionVerification.xlsx")
+            wb = xlrd.open_workbook(loc)
+            sheet = wb.sheet_by_index(0)
+            rowValue=sheet.nrows-1
+            if(sheet.row(rowValue).pop(3).value=='Allow'):
+                amount = input("Enter amount :")
+                print("Transaction successful")
+            else:
+                print("Transaction unsuccessful")
+                if(sheet.row(rowValue).pop(4).value=='Yes'):
+                    print("Card has been blocked")
+            print(sheet.row(rowValue).pop(3).value)
+            print(rowValue)
+
+print("Thankyou! Visit again")
